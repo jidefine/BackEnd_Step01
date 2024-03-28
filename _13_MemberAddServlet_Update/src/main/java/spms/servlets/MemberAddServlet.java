@@ -1,4 +1,4 @@
-package spms.sevlets;
+package spms.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -35,21 +35,26 @@ public class MemberAddServlet extends HttpServlet{
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-		//get 요청은 소스에 않고, tomcat의 server.xml에 해야 함
+		// get 요청은 소스에 하지 않고, tomcat의 server.xml에 해야 함
 		
-		//파라미터를 꺼내기 전에 해야 함
+		// 파라미터를 꺼내기 전에 해야 함
 		// 이 설정을 안해주면 한글이 깨져서 저장됨
 		// 이 설정을 추가해줄 것
 		req.setCharacterEncoding("UTF-8");
 		
 		Connection conn = null;
-		/*Statement
-		 * - 질의할 때마다 sql을 컴파일한다
-		 * - 입력 매개변수가 여러 개 필요할 때 문자열 결합연산자인 +를 이용해서 해야한다
+		/*
+		 * Statement
+		 *  - 질의할 때마다 sql을 컴파일한다.
+		 *  - 입력 매개변수가 여러 개 필요할 때 문자열 결합연산자인 +를 이용해서 해야한다.
+		 *  - 전송 직접에 sql문을 입력받고, 컴파일 후, 서버로 전송
 		 * 
 		 * PreparedStatement
-		 * - sql문을 미리 입력하여 컴파일한 상태에서 객체를 받는다
-		 * - 만약에 */
+		 *  - sql문을 미리 입력하여 컴파일한 상태에서 객체를 받는다.
+		 *  - 만약에 sql문 구조가 변경되지 않고, 파라미터값만 바뀌는 경우 Statement보다 훨씬 빠르다.
+		 *  - 입력 매개변수가 여러 개 필요할 때 ?로 sql의 파라미터를 표시하고, 나중에 전달하므로 편하다.
+		 *  - Statement < PreparedStatement 를 사용한다.
+		 * */
 		PreparedStatement stmt = null;
 		
 		try {
@@ -71,21 +76,23 @@ public class MemberAddServlet extends HttpServlet{
 			resp.setContentType("text/html;charset=UTF-8");
 			PrintWriter out = resp.getWriter();
 			out.println("<html><head><title>회원등록결과</title></head>");
-			//
+			// 아래와 같은 코드이다. 1초 후에 Refresh
 			//2안
 			//out.println("<meta http-equiv='Refresh' content='1;url=list'>");
 			out.println("<body>");
 			out.println("<p>등록 성공입니다</p>");
 			out.println("</body></html>");
 			
-			//Refresh 대신 Redirect를 처리한다.
-			//서버->클라이언트 명령
-			//브라우저는 list로 다시 접속
+			// Refresh대신 Redirect를 처리한다.
+			// 시간을 지체 하지 않고, 바로 다시 상대경로 이동
+			// 서버 -> 브라우저한테 명령
+			// 브라우저는 list로 다시 접속
 			resp.sendRedirect("list");
 			
 			// 1초 후에 화면이 바뀌면서 상대경로 list로 이동하라
-			//1안
-			//resp.addHeader("Refresh", "1;url=list");
+			// 위에 처럼 해도 된다.
+			// 1안
+			resp.addHeader("Refresh", "1;url=list");
 		}catch(Exception e) {
 			throw new ServletException(e);
 		}finally {

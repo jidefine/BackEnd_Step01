@@ -1,4 +1,4 @@
-package spms.sevlets;
+package spms.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -53,7 +53,7 @@ public class MemberListServlet extends GenericServlet{
 						rs.getInt("mno") + ", " + 
 						// /member/update로 get요청을 하는데 mno값을 가지고 이동해라
 						"<a href='update?no=" + rs.getInt("mno") + "'>" + 
-						rs.getString("mname") + ", " +
+						rs.getString("mname") + "</a>, " +
 						rs.getString("email") + ", " +
 						rs.getDate("cre_date") + "<br>"
 						);
