@@ -10,7 +10,6 @@ import java.sql.Statement;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -35,20 +34,25 @@ public class MemberUpdateServlet extends HttpServlet {
 					);
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(
-					"SELECT mno, email, mname, cre_date FROM members"+
-					"WHRERE mno='" + req.getParameter("no")+"'"
+					"SELECT mno,email,mname,cre_date FROM members" +
+					" WHERE mno=" + req.getParameter("no")
 					);
-			
-			//
+			/*
+			 mno값은 unique하므로 결과는 1개가 나오므로 while문은 필요없다.
+			 ResultSet의 내부에는 row를 가리키는 Cursor가 존재하는데
+			 처음에는 1번째 행 이전을 가리키고 있다.
+			 그러므로 rs.next()를 해야 1번째 행을 가리키고 값을 꺼낼 수가 있다.
+			*/
 			
 			rs.next();
+
 			resp.setContentType("text/html;charset=UTF-8");
 			PrintWriter out = resp.getWriter();
 			out.println("<html><head><title>회원정보</title></head>");
 			out.println("<body><h1>회원정보</h1>");
-			out.println("<from action='update' method='post'>");
-			out.println("번호: ,input type='text' name='no' value='" +
-						req.getParameter("no")+ "'readonly><br>" );
+			out.println("<form action='update' method='post'>");
+			out.println("번호: <input type='text' name='no' value='" +
+						req.getParameter("no") + "' readonly><br>");
 			out.println("이름: <input type='text' name='name'" +
 					" value='" + rs.getString("mname") + "'><br>");
 			out.println("이메일: <input type='text' name='email'" + 
@@ -60,6 +64,7 @@ public class MemberUpdateServlet extends HttpServlet {
 			out.println("</form>");
 			
 			out.println("</body></html>");
+
 		}catch(Exception e) {
 			throw new ServletException(e);
 		}finally {
@@ -71,13 +76,12 @@ public class MemberUpdateServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		//한글이 깨지지 않게
+		// 한글이 깨지지 않기 위해 값을 꺼내기 전에 설정
 		req.setCharacterEncoding("UTF-8");
 		
 		Connection conn = null;
 		PreparedStatement stmt = null;
-		
-		try {
+				try {
 			ServletContext sc = this.getServletContext();
 			Class.forName(sc.getInitParameter("driver"));
 			conn = DriverManager.getConnection(
@@ -85,15 +89,18 @@ public class MemberUpdateServlet extends HttpServlet {
 					sc.getInitParameter("username"),
 					sc.getInitParameter("password")
 					);
-			stmt = conn.prepareStatement("UPDATE members SET email=?, mname=?, mod_date=NOW()" 
-					+ " WHERE mno=?");
-			//컴파일 : 데이터베이스에 최적화된 상태로 데이터를 보냄?
-			stmt.setString(1, req.getParameter("email"));
+			stmt = conn.prepareStatement(
+						"UPDATE members SET email=?, mname=?, mod_date=NOW()" 
+					+ " WHERE mno=?"
+					);
+			// 컴파일 : 데이터베이스에 최적화된 상태로 데이터를 보냄?
+			stmt.setString(1,  req.getParameter("email"));
 			stmt.setString(2,  req.getParameter("name"));
 			stmt.setInt(3,  Integer.parseInt(req.getParameter("no")));
 			stmt.executeUpdate();
 			
 			resp.sendRedirect("list");
+
 		}catch(Exception e) {
 			throw new ServletException(e);
 		}finally {
