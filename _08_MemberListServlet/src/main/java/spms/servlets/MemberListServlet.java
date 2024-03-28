@@ -1,4 +1,4 @@
-package spms.sevlets;
+package spms.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,8 +15,7 @@ import javax.servlet.annotation.WebServlet;
 
 @WebServlet("/member/list")
 @SuppressWarnings("serial")
-public class MemberListServlet extends GenericServlet{
-
+public class MemberListServlet extends GenericServlet {
 	@Override
 	public void service(ServletRequest req, ServletResponse res) throws ServletException, IOException {
 		Connection conn = null;			// DB 서버와의 연결 객체
@@ -39,15 +38,6 @@ public class MemberListServlet extends GenericServlet{
 			PrintWriter out = res.getWriter();
 			out.println("<html><head><title>회원 목록</title></head>");
 			out.println("<body><h1>회원 목록</h1>");
-			/*신규회원 추가*/
-			/*
-			 * href = '/add' => 절대경로
-			 *  localhost:9999/<contextRoot>/add
-			 * 
-			 * href = 'add'  => 상대경로
-			 *  localhost:9999/<contextRoot>/member/add
-			 * */
-			out.println("<p><a href='add'>신규 회원</a></p>");
 			while(rs.next()) {
 				out.println(
 						rs.getInt("mno") + ", " + 
@@ -67,5 +57,4 @@ public class MemberListServlet extends GenericServlet{
 			try {if(conn!=null) conn.close();} catch(Exception e) {}
 		}
 	}
-
 }
