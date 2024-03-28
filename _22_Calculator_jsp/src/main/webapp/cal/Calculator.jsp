@@ -27,7 +27,7 @@ if(request.getParameter("v1") != null){
 
 <!DOCTYPE html>
 <html>
-<head>
+<head> 
 <meta charset="UTF-8">
 <title>계산기</title>
 </head>
