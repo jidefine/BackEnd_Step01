@@ -64,7 +64,8 @@ public class MemberAddServlet extends HttpServlet{
 			RequestDispatcher rd = req.getRequestDispatcher("/Error.jsp");
 			rd.forward(req, resp);
 		}finally {
-			try {if(rs!=null) rs.close();} catch(Exception e) {}
+			//try {if(rs!=null) rs.close();} catch(Exception e) {} // 내가 추가함
+			try {if(stmt!=null) stmt.close();} catch(Exception e) {} // tutor
 			try {if(stmt!=null) stmt.close();} catch(Exception e) {}
 		}
 	}
