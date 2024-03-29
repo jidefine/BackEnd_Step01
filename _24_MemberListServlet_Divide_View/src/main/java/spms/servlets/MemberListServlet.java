@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import spms.vo.Member;
+import spms.vo.MemberList;
 
 @WebServlet("/member/list")
 @SuppressWarnings("serial")
@@ -45,9 +45,9 @@ public class MemberListServlet extends HttpServlet{
 			/* 회원 목록을 list객체로 생성
 			 * MemberList.jsp를 호출하면서 list객체를 전달
 			 * */
-			List<Member> members = new ArrayList<>();
+			List<MemberList> members = new ArrayList<>();
 			while(rs.next()) {
-				members.add(new Member()
+				members.add(new MemberList()
 								.setNo(rs.getInt("mno"))
 								.setName(rs.getString("mname"))
 								.setEmail(rs.getString("email"))
