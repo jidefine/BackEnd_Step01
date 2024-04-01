@@ -1,9 +1,6 @@
 package spms.servlets;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -59,7 +56,10 @@ public class LogInServlet extends HttpServlet{
 		      }			
 			
 		}catch(Exception e) {
-			
+			e.printStackTrace();
+			req.setAttribute("error", e);
+			RequestDispatcher rd = req.getRequestDispatcher("/Error.jsp");
+			rd.forward(req, resp);
 		}
 		/*
 		finally {
