@@ -4,7 +4,6 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-import org.apache.commons.dbcp.BasicDataSource;
 import spms.dao.MemberDao;
 import spms.util.DBConnectionPool;
 
@@ -16,8 +15,7 @@ import spms.util.DBConnectionPool;
 public class ContextLoaderListener implements ServletContextListener{
 
 	//Connection conn;
-	//DBConnectionPool connPool;
-	BasicDataSource ds;
+	DBConnectionPool connPool;
 	
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
@@ -26,16 +24,7 @@ public class ContextLoaderListener implements ServletContextListener{
 		try {
 			ServletContext sc = sce.getServletContext();
 			
-			ds = new BasicDataSource();
-			ds.setDriverClassName(sc.getInitParameter("driver"));
-			ds.setUrl(sc.getInitParameter("url"));
-			ds.setUsername(sc.getInitParameter("username"));
-			ds.setPassword(sc.getInitParameter("password"));
-			
-			MemberDao memberDao = new MemberDao();
-			memberDao.setDataSource(ds);
-			
-			/*connPool = new DBConnectionPool(
+			connPool = new DBConnectionPool(
 					sc.getInitParameter("driver"),
 					sc.getInitParameter("url"),
 					sc.getInitParameter("username"),
@@ -43,6 +32,17 @@ public class ContextLoaderListener implements ServletContextListener{
 					);
 			MemberDao memberDao = new MemberDao(); 
 			memberDao.setDBConnectionPool(connPool);
+			
+			/*
+			Class.forName(sc.getInitParameter("driver"));
+			conn = DriverManager.getConnection(
+					sc.getInitParameter("url"),
+					sc.getInitParameter("username"),
+					sc.getInitParameter("password")
+					);
+			
+			MemberDao memberDao = new MemberDao();
+			memberDao.setConnection(conn);
 			*/
 			
 			sc.setAttribute("memberDao", memberDao);
@@ -57,9 +57,7 @@ public class ContextLoaderListener implements ServletContextListener{
 		System.out.println("ContextLoaderListener::contextDestroyed() 호출");
 		
 		try {
-			if(ds != null) 
-				ds.close();
-			//connPool.closeAll();
+			connPool.closeAll();
 			
 //			if(conn != null && conn.isClosed() == false)
 //				conn.close();
