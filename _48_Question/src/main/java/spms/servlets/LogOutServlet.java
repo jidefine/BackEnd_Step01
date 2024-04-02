@@ -21,6 +21,6 @@ public class LogOutServlet extends HttpServlet{
 		session.removeAttribute("member");   // 삭제
 		session.invalidate(); 				 // 저장소 초기화
 		
-		resp.sendRedirect("login");
+		resp.sendRedirect("login.do");
 	}
 }
