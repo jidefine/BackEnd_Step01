@@ -8,7 +8,7 @@ public class LogOutController implements Controller{
 
 	@Override
 	public String execute(Map<String, Object> model) throws Exception { // get 요청
-			HttpSession session = model.put("session");
+			HttpSession session = (HttpSession)model.get("session");
 			session.removeAttribute("member");   // 삭제
 			session.invalidate(); 
 

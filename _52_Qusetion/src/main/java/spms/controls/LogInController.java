@@ -11,17 +11,19 @@ public class LogInController implements Controller {
 
 	@Override
 	public String execute(Map<String, Object> model) throws Exception {
-		if(model.get("member") == null) {			// get 요청
+		if(model.get("loginInfo") == null) {			// 입력폼을 요청할 때
 			
 			return "/auth/LogInForm.jsp";
 			
-		}else {										// post 요청
+		}else { 								// 회원 등록을 요청할 때
 			MemberDao memberDao = (MemberDao)model.get("memberDao");
-			Member member = memberDao.exist(model.get("email"), model.get("password"));
+			Member loginInfo = (Member)model.get("loginInfo");
+			
+			Member member = memberDao.exist(loginInfo.getEmail(), loginInfo.getPassword());
 			memberDao.insert(member);
 			
 			if (member != null) {
-		        HttpSession session = model.put("session");
+		        HttpSession session = (HttpSession)model.get("session");
 		        session.setAttribute("member", member);
 		        return "../member/list.do";
 
