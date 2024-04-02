@@ -1,9 +1,5 @@
 package spms.servlets;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 
@@ -64,3 +60,4 @@ public class AppInitServlet extends HttpServlet{
 		}catch(Exception e) {}
 		*/
 	}
+}
