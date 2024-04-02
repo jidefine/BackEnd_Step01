@@ -5,12 +5,11 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import spms.dao.MemberDao;
-import spms.dao.MysqlMemberDao;
 import spms.vo.Member;
 
 public class LogInController implements Controller {	
 	
-MysqlMemberDao memberDao;
+	MemberDao memberDao;
 	
 	public LogInController setMemberDao(MemberDao memberDao) {
 		this.memberDao = memberDao;
