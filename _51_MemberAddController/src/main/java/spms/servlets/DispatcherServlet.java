@@ -22,7 +22,7 @@ import spms.vo.Member;
 
 @SuppressWarnings("serial")
 @WebServlet("*.do")
-public class DispatchServlet extends HttpServlet{
+public class DispatcherServlet extends HttpServlet{
 
 	// get요청/post요청을 모두 받기 위해 구현하는 메서드
 	@Override
