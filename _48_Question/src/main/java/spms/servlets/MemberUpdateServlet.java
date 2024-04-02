@@ -43,6 +43,7 @@ public class MemberUpdateServlet extends HttpServlet{
 //			rd.forward(req, resp);			
 			
 		}catch(Exception e) {
+			throw new ServletException(e);
 //			예외처리를 DispatchServlet에게 처리하도록 일원화하기 위해 주석 처리
 //			e.printStackTrace();
 //			req.setAttribute("error", e);

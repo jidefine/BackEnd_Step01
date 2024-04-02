@@ -30,6 +30,7 @@ public class MemberDeleteServlet extends HttpServlet {
 			response.sendRedirect("list.do");
 			
 		} catch (Exception e) {
+			throw new ServletException(e);
 //			예외처리를 DispatchServlet에게 처리하도록 일원화하기 위해 주석 처리
 //			e.printStackTrace();
 //			request.setAttribute("error", e);

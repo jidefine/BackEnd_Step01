@@ -57,6 +57,7 @@ public class LogInServlet extends HttpServlet{
 //			        rd.forward(req, resp);
 //			      }			
 		}catch(Exception e) {
+			throw new ServletException(e);
 //			e.printStackTrace();
 //			req.setAttribute("error", e);
 //			RequestDispatcher rd = req.getRequestDispatcher("/Error.jsp");
