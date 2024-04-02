@@ -27,7 +27,7 @@ public class MemberUpdateServlet extends HttpServlet{
 			MemberDao memberDao = (MemberDao)sc.getAttribute("memberDao");	
 			Member member = memberDao.selectOne(
 			          Integer.parseInt(req.getParameter("no")));
-			req.setAttribute("member", member);
+			req.setAttribute("member", member); //MemberUpdateForm.jsp에 전달하기 위한 용도
 			
 //			jsp 이동을 위한 jsp 페이지 정보를 request에 저장
 			req.setAttribute("viewUrl", "/member/MemberUpdateForm.jsp");
