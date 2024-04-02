@@ -15,49 +15,42 @@ import javax.servlet.http.HttpServlet;
  * */
 
 @SuppressWarnings("serial")
-public class AppInitServlet extends HttpServlet{
+public class AppInitServlet extends HttpServlet {
 
 	@Override
 	public void init() throws ServletException {
-		/* 데이터베이스 Connection객체를 생성해서 ServletContext 영역에 저장한다.
-		 * 다른 서블릿들이 꺼내어 쓸 수 있도록
-		 * */
+		/*
+		 * 데이터베이스 Connection객체를 생성해서 ServletContext 영역에 저장한다. 다른 서블릿들이 꺼내어 쓸 수 있도록
+		 */
 		System.out.println("AppInitServlet::init() 호출");
 		/*
-		try {
-			// ServletContext 영역(Application 전체 공유 영역) 객체 얻기
-			
-			ServletContext sc = this.getServletContext();
-			
-			Class.forName(sc.getInitParameter("driver"));
-			Connection conn = DriverManager.getConnection(
-							sc.getInitParameter("url"),
-							sc.getInitParameter("username"),
-							sc.getInitParameter("password")
-					);
-			
-			// ServletContext 공간에 저장
-			sc.setAttribute("conn", conn);
-			
-		}catch(Exception e) {
-			throw new ServletException(e);
-		}
-		*/
+		 * try { // ServletContext 영역(Application 전체 공유 영역) 객체 얻기
+		 * 
+		 * ServletContext sc = this.getServletContext();
+		 * 
+		 * Class.forName(sc.getInitParameter("driver")); Connection conn =
+		 * DriverManager.getConnection( sc.getInitParameter("url"),
+		 * sc.getInitParameter("username"), sc.getInitParameter("password") );
+		 * 
+		 * // ServletContext 공간에 저장 sc.setAttribute("conn", conn);
+		 * 
+		 * }catch(Exception e) { throw new ServletException(e); }
+		 */
 	}
-	
+
 	@Override
 	public void destroy() {
-		/* 데이터베이스 Connection 객체를 close()한다.
-		 * */
-		System.out.println("AppInitServlet::destroy() 호출");
-		
 		/*
-		Connection conn = (Connection)this.getServletContext().getAttribute("conn");
-		try {
-			if(conn != null && conn.isClosed()==false)
-				conn.close();
-			
-		}catch(Exception e) {}
-		*/
+		 * 데이터베이스 Connection 객체를 close()한다.
+		 */
+		System.out.println("AppInitServlet::destroy() 호출");
+
+		/*
+		 * Connection conn = (Connection)this.getServletContext().getAttribute("conn");
+		 * try { if(conn != null && conn.isClosed()==false) conn.close();
+		 * 
+		 * }catch(Exception e) {}
+		 */
 	}
 }
+
