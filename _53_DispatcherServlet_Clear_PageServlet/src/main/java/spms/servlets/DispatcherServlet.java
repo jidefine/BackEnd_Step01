@@ -106,10 +106,6 @@ public class DispatcherServlet extends HttpServlet{
 			// 아직 pageController가 존재하지 않고, Servlet으로 되어 있을 때
 			else {
 				System.out.println("DispatchServlet::service() - pageController=" + pageControllerPath);
-				RequestDispatcher rd = req.getRequestDispatcher(pageControllerPath);
-				rd.include(req, resp);	
-				
-				viewUrl = (String)req.getAttribute("viewUrl");
 			}		
 			
 			System.out.println("DispatchServlet::service() - viewUrl=" + viewUrl);
