@@ -21,7 +21,7 @@ public class LogInController implements Controller {
 		if (model.get("loginInfo") == null) { // 입력폼을 요청할 때
 			System.out.println("LogInController::execute() - get 요청");
 			
-			return "/auth/LogInForm.jsp";
+			return "/auth/LoginForm.jsp";
 
 		} else { // 회원 등록을 요청할 때
 			System.out.println("LogInController::execute() - post 요청");
@@ -36,7 +36,7 @@ public class LogInController implements Controller {
 				session.setAttribute("member", member);
 				return "redirect:../member/list.do";
 			} else {
-				return "/auth/LogInFail.jsp";
+				return "/auth/LoginFail.jsp";
 			}
 		}
 	}

@@ -10,13 +10,8 @@ import javax.sql.DataSource;
 
 import spms.vo.Member;
 
-/* Dao (Data Access Object)
- * 데이터베이스는 연결하여 데이터를 입출력을 담당하는 클래스
- * 이 클래스로 만들어진 오브젝트를 Dao라고 부른다.
- * */
-public class MysqlMemberDao  implements MemberDao{
-	
-	
+public class MySqlMemberDao implements MemberDao{
+		
 	private String strSelectList = 
 			"SELECT mno,mname,email,cre_date FROM members ORDER BY mno ASC";
 	private String strInsert = 
@@ -29,29 +24,20 @@ public class MysqlMemberDao  implements MemberDao{
 			"UPDATE members SET email=?, mname=?, mod_date=NOW() WHERE mno=?";
 	private String strExist = 
 			"SELECT mname, email FROM members WHERE email=? AND pwd=?";
-	
-	//apache 라이브러리에서 제공하는 DataSource내에 커넥션 풀이 포함되어 있음
+
 	DataSource ds;
 	
 	public void setDataSource(DataSource ds) {
 		this.ds = ds;
 	}
-	
-	/*DBConnectionPool connPool;
-	
-	public void setDBConnectionPool(DBConnectionPool connPool) {
-		this.connPool = connPool;
-	}*/
-	
-	// MemberListServlet에서 필요
+
 	public List<Member> selectList() throws Exception{
 		Connection connection = null;		// 추가
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		
 		try {
-			// 커넥션풀에서 객체를 빌려온다.
-			//connection = this.connPool.getConnection();		// 추가
+
 			connection = this.ds.getConnection();
 			
 			stmt = connection.prepareStatement(strSelectList);
@@ -75,24 +61,16 @@ public class MysqlMemberDao  implements MemberDao{
 		}finally {
 			try {if(rs!=null) rs.close();} catch(Exception e) {}
 			try {if(stmt!=null) stmt.close();} catch(Exception e) {}
-			
-			// 커넥션풀에서 빌려온 Connection 객체를 반납한다.
-			//if(connection != null) connPool.returnConnection(connection);
-			
-			//DataSource가 제공하는 Connection의 close()는 서버와의 단절이 아니라 커넥션풀의 반환을 의미
-			try{if(connection != null) connection.close();} catch(Exception e) {}
+			try {if(connection != null) connection.close();} catch(Exception e) {}
 		}
 	}
 	
-	// MemberAddServlet에서 필요
 	public int insert(Member member) throws Exception{
 		Connection connection = null;		// 추가
 		
 		PreparedStatement stmt = null;
 		
 		try {
-			// 커넥션풀에서 객체를 빌려온다.
-			//connection = this.connPool.getConnection();		// 추가
 			connection = this.ds.getConnection();
 			
 			stmt = connection.prepareStatement(strInsert);
@@ -106,26 +84,19 @@ public class MysqlMemberDao  implements MemberDao{
 			throw e;
 		}finally {
 			try {if(stmt!=null) stmt.close();} catch(Exception e) {}
-			
-			// 커넥션풀에서 빌려온 Connection 객체를 반납한다.
-			//if(connection != null) connPool.returnConnection(connection);
-			
-			//DataSource가 제공하는 Connection의 close()는 서버와의 단절이 아니라 커넥션풀의 반환을 의미
-			try{if(connection != null) connection.close();} catch(Exception e) {}
+			try {if(connection != null) connection.close();} catch(Exception e) {}
 		}
 	}
-	
-	// MemberDeleteServlet에서 필요
+
 	public int delete(int no) throws Exception{
 		Connection connection = null;		// 추가
 
 		PreparedStatement stmt = null;
 		
 		try {
-			// 커넥션풀에서 객체를 빌려온다.
-			//connection = this.connPool.getConnection();		// 추가
+
 			connection = this.ds.getConnection();
-			
+
 			stmt = connection.prepareStatement(strDelete);
 			stmt.setInt(1, no);
 			return stmt.executeUpdate();
@@ -134,16 +105,11 @@ public class MysqlMemberDao  implements MemberDao{
 			throw e;
 		}finally {
 			try {if(stmt!=null) stmt.close();} catch(Exception e) {}
-			
-			// 커넥션풀에서 빌려온 Connection 객체를 반납한다.
-			//if(connection != null) connPool.returnConnection(connection);
-			
-			//DataSource가 제공하는 Connection의 close()는 서버와의 단절이 아니라 커넥션풀의 반환을 의미
-			try{if(connection != null) connection.close();} catch(Exception e) {}
+			try {if(connection != null) connection.close();} catch(Exception e) {}
 		}
 	}
 	
-	// MemberUpdateServlet에서 get요청시 필요
+
 	public Member selectOne(int no) throws Exception{
 		Connection connection = null;		// 추가
 		
@@ -151,8 +117,6 @@ public class MysqlMemberDao  implements MemberDao{
 		ResultSet rs = null;
 		
 		try {
-			// 커넥션풀에서 객체를 빌려온다.
-			//connection = this.connPool.getConnection();		// 추가
 			connection = this.ds.getConnection();
 			
 			stmt = connection.prepareStatement(strSelectOne);
@@ -173,25 +137,17 @@ public class MysqlMemberDao  implements MemberDao{
 			throw e;
 		}finally {
 			try {if(rs!=null) rs.close();} catch(Exception e) {}
-			try {if(stmt!=null) stmt.close();} catch(Exception e) {}
-			
-			// 커넥션풀에서 빌려온 Connection 객체를 반납한다.
-			//if(connection != null) connPool.returnConnection(connection);
-			
-			//DataSource가 제공하는 Connection의 close()는 서버와의 단절이 아니라 커넥션풀의 반환을 의미
-			try{if(connection != null) connection.close();} catch(Exception e) {}
+			try {if(stmt!=null) stmt.close();} catch(Exception e) {}			
+			try {if(connection != null) connection.close();} catch(Exception e) {}
 		}
 	}
 	
-	// MemberUpdateServlet에서 post요청시 필요
 	public int update(Member member) throws Exception{
 		Connection connection = null;		// 추가
 		
 		PreparedStatement stmt = null;
 		
 		try {
-			// 커넥션풀에서 객체를 빌려온다.
-			//connection = this.connPool.getConnection();		// 추가
 			connection = this.ds.getConnection();
 			
 			stmt = connection.prepareStatement(strUpdate);
@@ -205,16 +161,10 @@ public class MysqlMemberDao  implements MemberDao{
 			throw e;
 		}finally {
 			try {if(stmt!=null) stmt.close();} catch(Exception e) {}
-			
-			// 커넥션풀에서 빌려온 Connection 객체를 반납한다.
-			//if(connection != null) connPool.returnConnection(connection);
-			
-			//DataSource가 제공하는 Connection의 close()는 서버와의 단절이 아니라 커넥션풀의 반환을 의미
-			try{if(connection != null) connection.close();} catch(Exception e) {}
+			try {if(connection != null) connection.close();} catch(Exception e) {}
 		}
 	}
 	
-	// LogInServlet에서 필요
 	public Member exist(String email, String password) throws Exception{
 		Connection connection = null;		// 추가
 		
@@ -222,8 +172,6 @@ public class MysqlMemberDao  implements MemberDao{
 		ResultSet rs = null;
 		
 		try {
-			// 커넥션풀에서 객체를 빌려온다.
-			//connection = this.connPool.getConnection();		// 추가
 			connection = this.ds.getConnection();
 			
 			stmt = connection.prepareStatement(strExist);
@@ -244,12 +192,7 @@ public class MysqlMemberDao  implements MemberDao{
 		}finally {
 			try {if(rs!=null) rs.close();} catch(Exception e) {}
 			try {if(stmt!=null) stmt.close();} catch(Exception e) {}
-			
-			// 커넥션풀에서 빌려온 Connection 객체를 반납한다.
-			//if(connection != null) connPool.returnConnection(connection);
-			
-			//DataSource가 제공하는 Connection의 close()는 서버와의 단절이 아니라 커넥션풀의 반환을 의미
-			try{if(connection != null) connection.close();} catch(Exception e) {}
+			try {if(connection != null) connection.close();} catch(Exception e) {}
 		}
 	}
 }
