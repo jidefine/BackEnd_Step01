@@ -10,7 +10,7 @@ import javax.sql.DataSource;
 
 import spms.vo.Member;
 
-public class MySqlMemberDao implements MemberDao{
+public class MysqlMemberDao implements MemberDao{
 		
 	private String strSelectList = 
 			"SELECT mno,mname,email,cre_date FROM members ORDER BY mno ASC";
