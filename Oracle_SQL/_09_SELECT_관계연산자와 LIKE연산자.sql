@@ -1,9 +1,9 @@
 [관계 연산자 : AND, OR]
 
 --1) 20번 부서원 중에 급여가 2000이상인 사원을 검색하세요
-SELECT *
-
-
+SELECT dno, sal, eno, ename
+FROM emp
+WHERE dno='20' AND sal >= 2000;
 
 --2) 30번 부서원 중에 급여가 2000이상이고 개발 업무를 담당하는
 --  사원을 검색하세요
