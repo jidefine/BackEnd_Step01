@@ -23,6 +23,11 @@
 		<param-value>study</param-value>
 	</context-param>
 	
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/application-context.properties</param-value>
+	</context-param>
+	
 	<!-- 리스너 선언 -->
 	
 	<!-- 필터 선언 -->
