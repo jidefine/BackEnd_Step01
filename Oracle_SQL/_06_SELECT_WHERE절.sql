@@ -59,6 +59,7 @@ WHERE NVL(comm,0) <=600;
 --7) 입사일이 1996년 이후인 사원의 정보를 검색하세요
 ALTER SESSION SET NLS_DATE_FORMAT='YYYY/MM/DD';
 ALTER SESSION SET NLS_DATE_FORMAT='YYYY/MM/DD HH24:MI:SS';
+--sqlDeveloper는 위의 코드처럼 원하는대로 날짜 출력 가능
 --DBeaver, VS code는 date 출력 형식이 정해져 있음
 
 SELECT *

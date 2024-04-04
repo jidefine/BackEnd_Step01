@@ -6,7 +6,7 @@ FROM emp;
 SELECT * FROM tab;
 
 --emp의 구조와 데이터를 확인
-
+DESC emp;
 --테이블의 정보가 아니라 간단한 수식연산  
  -- dual은 형식을 맞추기 위한 용어
 SELECT 2+3
