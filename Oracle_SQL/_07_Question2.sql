@@ -36,4 +36,4 @@ ORDER BY orders;
 --8) 각 학과별로 교수의 정보를 부임일자 순으로 검색하라
 SELECT *
 FROM professor
-ORDER BY orders, hiredate ASC;
+ORDER BY section, hiredate ASC;
