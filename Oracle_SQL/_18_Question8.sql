@@ -6,7 +6,7 @@ WHERE pname='송강';
 
 SELECT pno, pname, cname
 FROM professor
-NATURAL JOIN course
+JOIN course USING(pno)
 WHERE pname='송강';
 
 --2) 화학 관련 과목을 강의하는 교수의 명단을 검색한다
@@ -15,16 +15,31 @@ FROM professor
 NATURAL JOIN course
 WHERE cname LIKE '%화학%';
 
+SELECT pno, pname, cname
+FROM professor
+JOIN course USING(pno)
+WHERE cname LIKE '%화학%';
+
 --3) 학점이 2학점인 과목과 이를 강의하는 교수를 검색한다
 SELECT pno, pname, cname, st_num
 FROM professor
 NATURAL JOIN course
 WHERE st_num=2;
 
+SELECT pno, pname, cname, st_num
+FROM professor
+JOIN course USING(pno)
+WHERE st_num=2;
+
 --4) 화학과 교수가 강의하는 과목을 검색한다
 SELECT pno, pname, section, cname
 FROM professor
 NATURAL JOIN course
+WHERE section='화학';
+
+SELECT pno, pname, section, cname
+FROM professor
+JOIN course USING(pno)
 WHERE section='화학';
 
 --5) 화학과 1학년 학생의 기말고사 성적을 검색한다
