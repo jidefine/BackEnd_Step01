@@ -9,8 +9,10 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import spms.annotation.Component;
 import spms.vo.Project;
 
+@Component("projectDao")
 public class MysplProjectDao implements ProjectDao {
 
 	DataSource ds;
@@ -105,10 +107,14 @@ public class MysplProjectDao implements ProjectDao {
 			rs = stmt.executeQuery("SELECT PNO,PNAME,CONTENT,STA_DATE,END_DATE,STATE,CRE_DATE,TAGS"
 					+ " FROM PROJECTS WHERE PNO=" + no);
 			if (rs.next()) {
-				return new Project().setNo(rs.getInt("PNO")).setTitle(rs.getString("PNAME"))
-						.setContent(rs.getString("CONTENT")).setStartDate(rs.getDate("STA_DATE"))
-						.setEndDate(rs.getDate("END_DATE")).setState(rs.getInt("STATE"))
-						.setCreatedDate(rs.getDate("CRE_DATE")).setTags(rs.getString("TAGS"));
+				return new Project().setNo(rs.getInt("PNO"))
+						.setTitle(rs.getString("PNAME"))
+						.setContent(rs.getString("CONTENT"))
+						.setStartDate(rs.getDate("STA_DATE"))
+						.setEndDate(rs.getDate("END_DATE"))
+						.setState(rs.getInt("STATE"))
+						.setCreatedDate(rs.getDate("CRE_DATE"))
+						.setTags(rs.getString("TAGS"));
 
 			} else {
 				throw new Exception("해당 번호의 프로젝트를 찾을 수 없습니다.");
