@@ -30,7 +30,7 @@ public class MysplProjectDao implements ProjectDao {
 			connection = ds.getConnection();
 			stmt = connection.createStatement();
 			rs = stmt
-					.executeQuery("SELECT PNO,PNAME,STA_DATE,END_DATE,STATE" + " FROM projects" + " ORDER BY PNO DESC");
+					.executeQuery("SELECT PNO,PNAME,STA_DATE,END_DATE,STATE" + " FROM PROJECTS" + " ORDER BY PNO DESC");
 
 			ArrayList<Project> projects = new ArrayList<Project>();
 
@@ -70,7 +70,7 @@ public class MysplProjectDao implements ProjectDao {
 
 		try {
 			connection = ds.getConnection();
-			stmt = connection.prepareStatement("INSERT INTO projects"
+			stmt = connection.prepareStatement("INSERT INTO PROJECTS"
 					+ "(PNAME,CONTENT,STA_DATE,END_DATE,STATE,CRE_DATE,TAGS)" + " VALUES (?,?,?,?,0,NOW(),?)");
 			stmt.setString(1, project.getTitle());
 			stmt.setString(2, project.getContent());
@@ -105,7 +105,7 @@ public class MysplProjectDao implements ProjectDao {
 			connection = ds.getConnection();
 			stmt = connection.createStatement();
 			rs = stmt.executeQuery("SELECT PNO,PNAME,CONTENT,STA_DATE,END_DATE,STATE,CRE_DATE,TAGS"
-					+ " FROM projects WHERE PNO=" + no);
+					+ " FROM PROJECTS WHERE PNO=" + no);
 			if (rs.next()) {
 				return new Project().setNo(rs.getInt("PNO"))
 						.setTitle(rs.getString("PNAME"))
@@ -146,7 +146,7 @@ public class MysplProjectDao implements ProjectDao {
 		PreparedStatement stmt = null;
 		try {
 			connection = ds.getConnection();
-			stmt = connection.prepareStatement("UPDATE projects SET " + " PNAME=?," + " CONTENT=?," + " STA_DATE=?,"
+			stmt = connection.prepareStatement("UPDATE PROJECTS SET " + " PNAME=?," + " CONTENT=?," + " STA_DATE=?,"
 					+ " END_DATE=?," + " STATE=?," + " TAGS=?" + " WHERE PNO=?");
 			stmt.setString(1, project.getTitle());
 			stmt.setString(2, project.getContent());
@@ -182,7 +182,7 @@ public class MysplProjectDao implements ProjectDao {
 		try {
 			connection = ds.getConnection();
 			stmt = connection.createStatement();
-			return stmt.executeUpdate("DELETE FROM projects WHERE PNO=" + no);
+			return stmt.executeUpdate("DELETE FROM PROJECTS WHERE PNO=" + no);
 
 		} catch (Exception e) {
 			throw e;
