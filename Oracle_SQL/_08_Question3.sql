@@ -39,6 +39,7 @@ ALTER SESSION SET NLS_DATE_FORMAT='YYYY/MM/DD';
 SELECT *
 FROM professor
 WHERE hiredate<'2000/01/01';
+ORDER BY hiredate; --빼먹음
 
 --9) 담당 교수가 없는 과목의 정보를 검색하라
 SELECT *
