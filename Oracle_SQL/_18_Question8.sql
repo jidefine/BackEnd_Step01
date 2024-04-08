@@ -49,12 +49,24 @@ SELECT sno, sname, major, syear, cname, result
  JOIN course USING(cno)
  WHERE major='화학' AND syear=1;
 
+-- tutor answer2
+SELECT major, syear, sno, sname, cno, result
+FROM student
+NATURAL JOIN score
+WHERE major='화학' AND syear=1;
+
 --6) 일반화학 과목의 기말고사 점수를 검색한다
 SELECT sno, sname, cname, result
  FROM student
  JOIN score USING(sno)
  JOIN course USING(cno)
  WHERE cname='일반화학';
+
+ -- tutor answer2
+SELECT sno, result
+FROM score
+NATURAL JOIN course
+WHERE cname='일반화학';
 
 --7) 화학과 1학년 학생의 일반화학 기말고사 점수를 검색한다
 SELECT sno 학번, sname 이름, major 학과, syear 학년, cname 과목명, result
@@ -63,9 +75,23 @@ FROM student
  JOIN course USING(cno)
  WHERE major='화학' AND syear=1 AND cname='일반화학';
 
+ -- tutor answer2
+ SELECT major, syear, sno, sname, cname, result
+FROM student
+NATURAL JOIN score
+NATURAL JOIN course
+WHERE major='화학' AND syear=1 AND cname='일반화학';
+
 --8) 화학과 1학년 학생이 수강하는 과목을 검색한다
 SELECT DISTINCT major 학과, syear 학년, cname 과목
  FROM student
  JOIN score USING(sno)
  JOIN course USING(cno)
  WHERE major='화학' AND syear=1;
+
+ -- tutor answer2
+ SELECT DISTINCT cname
+FROM student
+NATURAL JOIN score
+NATURAL JOIN course
+WHERE major='화학' AND syear=1;

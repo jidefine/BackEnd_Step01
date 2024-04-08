@@ -20,9 +20,19 @@ SELECT cno, cname,
          REPLACE(cname, '일반', '기초') Replace
 FROM course;
 
+--tutor(결과는 같으나, 쿼리 정확도가 내 풀이 비해 더 높음)
+SELECT cno, cname, REPLACE(cname, '일반', '기초')
+FROM course
+WHERE cname LIKE '일반%';
+
 5) 만일 입력 실수로 student테이블의 sname컬럼에 데이터가 입력될 때
    문자열 마지막에 공백이 추가되었다면 검색할 때 이를 제외하고
    검색하는 SELECT 문을 작성하세요
 
 SELECT sno, sname, TRIM(sname)
+FROM student;
+
+--tutor
+--문자열 sname에서 오른쪽(trailing)부터 공백을 제거
+SELECT TRIM(trailing FROM sname) 
 FROM student;

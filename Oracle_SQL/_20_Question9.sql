@@ -36,9 +36,18 @@ FROM course co
 RIGHT JOIN professor p on p.pno=co.pno
 ORDER BY pname;
 
+--tutor
+SELECT pno, pname, cname
+FROM professor
+LEFT JOIN course USING (pno);
 
 6) 모든 교수의 명단과 담당 과목을 검색한다(단 모든 과목도 같이 검색한다)
 SELECT DISTINCT p.pno, pname, co.cname
 FROM course co
 FULL JOIN professor p on p.pno=co.pno
 ORDER BY pname;
+
+--tutor
+SELECT pno, pname, cname
+FROM professor
+FULL JOIN course USING (pno);
