@@ -10,7 +10,11 @@ GROUP BY syear, major;
 
 
 2) 화학과 학년별 평균 평점을 검색하세요
-
+SELECT major, syear, 
+        ROUND(AVG(avr)) "평균"
+FROM student
+WHERE major='화학'
+GROUP BY major, syear;
 
 3) 각 학생별 기말고사 평균을 검색하세요
 
