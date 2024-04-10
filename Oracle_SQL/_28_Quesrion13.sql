@@ -42,9 +42,25 @@ WHERE TRUNC((sysdate-hiredate)/365) >= 10
 GROUP BY orders;
 
 7) 과목명에 화학이 포함된 과목의 학점수 총합을 검색하세요
-
+SELECT cname, SUM(st_num)
+FROM course
+WHERE cname LIKE'%화학%'
+GROUP BY cname;
 
 8) 화학과 학생들의 기말고사 성적을 성적순으로 검색하세요
-
+SELECT major, st.sno, sname, sc.result
+FROM student st
+JOIN score sc USING(sno)
+JOIN course USING(cno)
+WHERE major='화학'
+GROUP BY major
+ORDER BY result;
 
 9) 학과별 기말고사 평균을 성적순으로 검색하세요
+SELECT major, AVG(sc.result)
+FROM student st
+JOIN score sc USING(sno)
+JOIN course USING(cno)
+WHERE major='화학'
+GROUP BY major
+ORDER BY result;
