@@ -1,9 +1,9 @@
 
 1) 3학년 학생의 학과별 평점 평균과 분산 및 편차를 검색하세요
 SELECT syear, major, 
-        ROUND(AVG(avr)) "평균", 
-        ROUND(VARIANCE(avr)) "분산", 
-        ROUND(STDDEV(avr)) "편차"
+        ROUND(AVG(avr), 2) "평균", 
+        ROUND(VARIANCE(avr), 2) "분산", 
+        ROUND(STDDEV(avr), 2) "편차"
 FROM student
 WHERE syear='3'
 GROUP BY syear, major;
@@ -16,10 +16,11 @@ WHERE major='화학'
 GROUP BY major, syear;
 
 3) 각 학생별 기말고사 평균을 검색하세요(X)
-SELECT st.sno, sname, AVG(result) "기말고사 평균"
+SELECT sc.sno, sname, AVG(result) "기말고사 평균"
 FROM student st
-JOIN score USING(sno)
-GROUP BY sno, result;
+JOIN score sc USING(sc.sno)
+GROUP BY sc.sno, result
+ORDER BY sc.sno;
 
 4) 각 학과별 학생 수를 검색하세요
 SELECT major, COUNT(sno)
