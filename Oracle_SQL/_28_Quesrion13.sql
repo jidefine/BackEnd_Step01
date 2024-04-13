@@ -18,7 +18,7 @@ GROUP BY major, syear;
 3) 각 학생별 기말고사 평균을 검색하세요(X)
 SELECT sc.sno, sname, AVG(result) "기말고사 평균"
 FROM student st
-JOIN score sc USING(sc.sno)
+NATURAL JOIN score sc
 GROUP BY sc.sno, result
 ORDER BY sc.sno;
 
