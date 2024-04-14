@@ -40,7 +40,7 @@ FROM professor
 WHERE TRUNC((sysdate-hiredate)/365) >= 10
 GROUP BY orders;
 
-7) 과목명에 화학이 포함된 과목의 학점수 총합을 검색하세요(X)
+7) 과목명에 화학이 포함된 과목의 학점수 총합을 검색하세요(?)
 SELECT cname, SUM(st_num)
 FROM course
 WHERE cname LIKE'%화학%'
