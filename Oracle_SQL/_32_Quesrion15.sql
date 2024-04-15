@@ -20,7 +20,6 @@ AND avr= (SELECT avr
                   WHERE sname='사마감')
 ORDER BY avr DESC;
 
-
 3) 관우보다 일반 화학과목의 학점이 더 낮은 학생의 명단을 학점과 검색하세요
 SELECT sno, sname, cname, result
 FROM student
@@ -33,38 +32,6 @@ WHERE result <(SELECT result
                 WHERE sname='관우' AND cname='일반화학')
 AND cname='일반화학'
 ORDER BY result DESC;
-
---tutor
-SELECT s.sno, sname, grade
-FROM student s, course c, score r, scgrade g
-WHERE s.sno=r.sno AND r.cno=c.cno AND result BETWEEN loscore AND hiscore
-AND cname='일반화학'
-AND grade > (SELECT grade
-			 FROM student s, course c, score r, scgrade g
-			 WHERE s.sno=r.sno AND r.cno=c.cno
-			 AND result BETWEEN loscore AND hiscore
-			 AND sname='관우'
-			 AND cname='일반화학')
-AND sname!='관우';
-
---다시 풀어봄
-SELECT s.sno, sname, grade
-FROM student s
-JOIN score r ON s.sno=r.sno
-JOIN course c ON r.cno=c.cno
-NATURAL JOIN scgrade g
-WHERE result BETWEEN loscore AND hiscore
-AND cname='일반화학'
-AND grade > (SELECT grade
-			 FROM student s
-            JOIN score r ON s.sno=r.sno
-            JOIN course c ON r.cno=c.cno
-            NATURAL JOIN scgrade g
-            WHERE result BETWEEN loscore AND hiscore
-			 AND sname='관우'
-			 AND cname='일반화학')
-AND sname!='관우';
-
 
 
 4) 인원수가 가장 많은 학과를 검색하세요
@@ -91,12 +58,3 @@ HAVING MIN(result)=(SELECT MIN(MIN(result))
                     NATURAL JOIN score
                     GROUP BY sno, sname);
 --각 학생별 최저 점수 중에서도 가장 최저 점수
-
---tutor
-SELECT s.sno, sname
-FROM student s, score r
-WHERE s.sno=r.sno
-GROUP BY s.sno, sname
-HAVING AVG(result) = (SELECT MIN(AVG(result))
-					  FROM score
-					  GROUP BY sno);

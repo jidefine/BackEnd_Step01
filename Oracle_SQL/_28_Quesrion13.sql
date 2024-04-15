@@ -46,13 +46,7 @@ FROM professor
 WHERE TRUNC((sysdate-hiredate)/365) >= 10
 GROUP BY orders;
 
---tutor 
-SELECT orders, COUNT(*)
-FROM professor
-WHERE months_between(sysdate, hiredate) >= 120
-GROUP BY orders;
-
-7) 과목명에 화학이 포함된 과목의 학점수 총합을 검색하세요
+7) 과목명에 화학이 포함된 과목의 학점수 총합을 검색하세요(?)
 SELECT SUM(st_num)
 FROM course
 WHERE cname LIKE'%화학%'
@@ -65,21 +59,6 @@ JOIN score USING(sno)
 JOIN course USING(cno)
 WHERE major='화학'
 ORDER BY result DESC;
-
---tutor(?)
-SELECT sno, sname, AVG(result)
-FROM score
-NATURAL JOIN student
-GROUP BY sno, sname
-ORDER BY 3 DESC;
-
---다시 풀어봄
-SELECT major, sno, sname, AVG(result)
-FROM student
-JOIN score USING(sno)
-JOIN course USING(cno)
-WHERE major='화학'
-GROUP BY major, sno, sname;
 
 9) 학과별 기말고사 평균을 성적순으로 검색하세요
 SELECT major, ROUND(AVG(result), 2)
