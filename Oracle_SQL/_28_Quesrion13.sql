@@ -60,15 +60,7 @@ JOIN course USING(cno)
 WHERE major='화학'
 ORDER BY result DESC;
 
-9) 학과별 기말고사 평균을 성적순으로 검색하세요(X)
-SELECT major, AVG(sc.result)
-FROM student st
-JOIN score sc USING(sno)
-JOIN course USING(cno)
-WHERE major='화학'
-GROUP BY major
-ORDER BY result;
-
+9) 학과별 기말고사 평균을 성적순으로 검색하세요
 SELECT major, ROUND(AVG(result), 2)
  FROM student
  JOIN score USING(sno)
