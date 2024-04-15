@@ -15,12 +15,18 @@ FROM student
 WHERE major='화학'
 GROUP BY major, syear;
 
-3) 각 학생별 기말고사 평균을 검색하세요(X)
-SELECT sc.sno, sname, AVG(result) "기말고사 평균"
-FROM student st
-NATURAL JOIN score sc
-GROUP BY sc.sno, result
-ORDER BY sc.sno;
+3) 각 학생별 기말고사 평균을 검색하세요
+1안
+SELECT sc.sname, ROUND(AVG(result), 2)
+ FROM student sc
+ JOIN score USING(sno)
+GROUP BY sc.sname;
+
+2안
+SELECT sname, ROUND(AVG(result), 2)
+ FROM student
+NATURAL JOIN score
+GROUP BY sname;
 
 4) 각 학과별 학생 수를 검색하세요
 SELECT major, COUNT(sno)
@@ -41,19 +47,18 @@ WHERE TRUNC((sysdate-hiredate)/365) >= 10
 GROUP BY orders;
 
 7) 과목명에 화학이 포함된 과목의 학점수 총합을 검색하세요(?)
-SELECT cname, SUM(st_num)
+SELECT SUM(st_num)
 FROM course
 WHERE cname LIKE'%화학%'
-GROUP BY cname;
+GROUP BY st_num;
 
-8) 화학과 학생들의 기말고사 성적을 성적순으로 검색하세요(X)
-SELECT major, st.sno, sname, sc.result
-FROM student st
-JOIN score sc USING(sno)
+8) 화학과 학생들의 기말고사 성적을 성적순으로 검색하세요
+SELECT major, sno, sname, result
+FROM student
+JOIN score USING(sno)
 JOIN course USING(cno)
 WHERE major='화학'
-GROUP BY major
-ORDER BY result;
+ORDER BY result DESC;
 
 9) 학과별 기말고사 평균을 성적순으로 검색하세요(X)
 SELECT major, AVG(sc.result)
@@ -63,3 +68,9 @@ JOIN course USING(cno)
 WHERE major='화학'
 GROUP BY major
 ORDER BY result;
+
+SELECT major, ROUND(AVG(result), 2)
+ FROM student
+ JOIN score USING(sno)
+GROUP BY major
+ORDER BY ROUND(AVG(result), 2) DESC;
