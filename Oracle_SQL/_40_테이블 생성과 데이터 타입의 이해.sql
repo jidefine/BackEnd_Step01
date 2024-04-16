@@ -154,6 +154,8 @@ VALUES(1, TO_DATE('2024/04/05', 'YYYY/MM/DD'));
 INSERT INTO board(no)
 VALUES(2);
 
+COMMIT;
+
 SELECT * FROM board;
 
 SELECT no, TO_CHAR(hdate, 'YYYY-MM-DD:HH24:MI:SS')
@@ -161,11 +163,36 @@ FROM board;
 
 --utf-8에서는 한글은 3byte이다
 --영문은 1byte이다
+CREATE TABLE t2 (name VARCHAR2(3));
 
+INSERT INTO t2 VALUES('AAA');
+
+-- 3byte 초과라서 테이블에 데이터 삽입이 안됨
+INSERT INTO t2 VALUES('가나다');
+
+INSERT INTO t2 VALUES('가');
+
+SELECT * FROM t2;
 
 
 
 --CHAR 와 VARCHAR2 의 차이점을 알아보자
+CREATE TABLE comp(
+  co1 CHAR(4),
+  co2 VARCHAR2(4)
+);
+
+INSERT INTO comp VALUES('AA', 'AA');
+INSERT INTO comp VALUES('AAAA', 'AAAA');
+
+SELECT * FROM comp;
+
+SELECT * FROM comp WHERE co1='AA';
+
+SELECT * FROM comp WHERE co2='AA';
+
+SELECT * FROM comp WHERE co1=co2;
+
 
 
 
@@ -176,18 +203,52 @@ CHAR 를 쓰지 않고 VARCHAR2 를 사용하면 된다
 
 DATE 타입을 이해해보자
 
+CREATE TABLE hd(
+  no NUMBER,
+  hdate DATE
+);
 
+INSERT INTO hd VALUES(1, sysdate);
+
+COMMIT;
+
+SELECT * FROM hd;
+
+SELECT no, TO_CHAR(hdate, 'YYYY/MM/DD') FROM hd;
+
+ALTER SESSION SET nls_date_format='YY/MM/DD';
+
+SELECT * FROM hd
+WHERE hdate = '2024/04/16'; -- 2024/04/16 00:00:00
+
+SELECT * FROM hd
+WHERE TRUNC(hdate) = '2024/04/16'; --절삭하면 검색 가능
 
 
 연월일은 같지만 시분초가 다르므로 검색되지 않는다
 범위 검색을 해야 한다
 
+아래도 2024/04/17 00:00:00초까지 포함
+BETWEEN a AND b 일 때
+a와 b까지 모두 포함하는 범위
+--1안: 2024/04/17 00:00:00까지 포함
+SELECT * FROM hd
+WHERE hdate BETWEEN '2024/04/16' AND '2024/04/17';
 
+--2안
+SELECT * FROM hd
+WHERE hdate >='2024/04/16' 
+AND hdate < '2024/04/17';
+
+위의 비교는 '2024/04/16'을 DATE 타입으로 변환 후에
+hdata와 비교하므로 성능에 영향을 주지는 않는다.
 
 아래 방법은 비추천
 왜냐하면 hdate를 문자열로 자동 형 변환하므로
 대용량 테이블에서는 심각한 성능 저하가 일어날 수 있다.
-
+--hdate를 문자열로 변환해서 비교하므로 비효율적
+SELECT * FROM hd
+WHERE hdate Like '2024/04/16%'; 
 
 
 1) 우리나라에서는 날짜는 DATE 보다 VARCHAR2(8)
@@ -197,4 +258,3 @@ DATE 타입을 이해해보자
    TRUNC(sysdate) 시분초를 항상 00:00:00이 되게
    저장한다
 3) sysdate 를 사용하면 범위검색을 사용해야 한다
-
