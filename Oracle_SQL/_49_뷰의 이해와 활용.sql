@@ -49,8 +49,40 @@ AS (SELECT 문 : sub query 문);
     
 
 각 일반화학 과목의 학과별 기말고사 평균을 검색하고 뷰로 생성한다.
+SELECT
+FROM student
+JOIN score USING(sno)
+JOIN course USING(cno)
+WHERE cname ='일반화학'
+GROUP BY cno, cname, major;
 
-  
+--서브쿼리를 이용한 테이블 생성
+단점 : 해당 시점에 감사등에 주로 사용되지만
+
+CREATE TABLE major_avg
+AS (SELECT cno, cname, major, ROUND(AVG(result), 2) mavg
+    FROM student
+    JOIN score USING(sno)
+    JOIN course USING(cno)
+    WHERE cname ='일반화학'
+    GROUP BY cno, cname, major);
+
+--View는 가상 테이블이므로 물리적인 리소스가 아니다
+--개념으로 존재하는 것이다
+--항상 root 테이블의 데이터를 가져오므로 update가 필요하다
+
+CREATE VIEW ma_result(과목 번호, 과목명, 학과, 기말고사 평균)
+AS (SELECT cno, cname, major, ROUND(AVG(result), 2) mavg
+    FROM student
+    JOIN score USING(sno)
+    JOIN course USING(cno)
+    WHERE cname ='일반화학'
+    GROUP BY cno, cname, major);
+
+--App 입장에서는 ma_result가 그냥 테이블인줄 인디
+SELECT *FROM ma_result;
+
+
 서브 쿼리를 이용한 테이블은 물리적인 테이블을 만들어서
 새로 데이터를 추출/입력하므로
 나중에 테이블간의 데이터의 오류가 발생할 수 있다.
@@ -74,14 +106,37 @@ View를 검색할 때 View 에 정의된 기반 테이블을 검색해서
 
 WITH CHECK OPTION 을 이용해서 뷰를 생성한다
 
+CREATE VIEW TO_CHAR (n, fmt, nlsparam)
+AS (SELECT sno, sname, syear, avr
+    FROM student
+    WHERE syear=1);
 
+SELECT *FROM st-ch;
+
+INSERT INTO TO_CHAR (n, fmt, nlsparam)
+VALUES('000001', '연아', 2, 4.0);
+
+--.하지만 
+
+SELECT *FROM st_ch where sname="연아";
+
+ROLLBACK;
 
 뷰를 통해 student 테이블에 저장된다.
 하지만 뷰는 1학년만 보여주게 되어 있다.
+-- 해당 뷰는
 
+CREATE OR REPLACE VIEW st_ch
+AS (SELECT sno, sname, syear, avr
+FROM student
+WHERE syear=1
+WITH CHECK OPTION CONSTRAINT view_st_ch_ck);
 
 이제는 1학년만 삽입할 수 있다.
+INSERT INTO st_ch
+VALUES('00002', '현아', 1, 4.5);
 
+SELECT *FROM st_ch WHERE sname='현아';
 
     
     
