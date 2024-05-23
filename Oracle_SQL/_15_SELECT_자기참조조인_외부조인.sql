@@ -41,9 +41,17 @@ FROM dept;
 SELECT DISTINCT dno
 FROM emp;
 
+SELECT COUNT(DISTINCT dno) -- 출력값=6
+FROM emp;
+
 --1개 부서(POS)는 사원이 없다
 SELECT d.dno, dname, eno, ename
  FROM emp e, dept d
+ WHERE e.dno=d.dno
+  AND dname='POS';
+
+SELECT COUNT(d.dno) -- 출력값=0
+ FROM emp e, dept d -- COUNT() 함수의 매개변수로 열이나 표현식을 1개만 넣아야 함
  WHERE e.dno=d.dno
   AND dname='POS';
 

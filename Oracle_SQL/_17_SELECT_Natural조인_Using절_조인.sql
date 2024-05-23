@@ -21,6 +21,9 @@ SELECT dno, dname, eno, ename
  FROM dept
  NATURAL JOIN emp;
 
+SELECT COUNT(dno) -- 알아서 조인하고, 결과값을 숫자로 나타내줘
+ FROM dept
+ NATURAL JOIN emp;
 
 --2) 광주에서 근무하는 직원의 명단을 검색하세요
 --  (부서번호와 부서명도 검색하세요)
@@ -29,6 +32,10 @@ FROM emp e, dept d
 WHERE e.dno=d.dno AND loc='광주';
 
 SELECT loc, dno, dname, eno, ename
+FROM emp NATURAL JOIN dept
+WHERE loc='광주';
+
+SELECT COUNT(eno) -- 광주에서 근무하는 직원=5명
 FROM emp NATURAL JOIN dept
 WHERE loc='광주';
 
@@ -48,7 +55,7 @@ JOIN dept USING(dno);
 
 --4) 광주에서 근무하는 직원의 명단을 검색하세요
 --  (부서번호와 부서명도 검색하세요)
-SELECT loc dno, dname, eno, ename
+SELECT loc, dno, dname, eno, ename
 FROM emp 
 JOIN dept USING(dno)
 WHERE loc='광주';
@@ -89,4 +96,5 @@ SELECT result 점수, major 학과, syear 학년,
    JOIN course USING(cno)
  WHERE major='화학'
    AND syear=1
-   AND cname='유기화학';
+   AND cname='유기화학'
+  ORDER BY 점수 DESC; -- 정렬 추가
