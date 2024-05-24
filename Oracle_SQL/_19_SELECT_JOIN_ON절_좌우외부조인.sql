@@ -66,6 +66,18 @@ SELECT e1.mgr "매니저 사번", e2.ename "매니저명", e1.eno "사원번호"
 FROM emp e1
 JOIN emp e2 ON e1.mgr=e2.eno;
 
+-- SQLD 예제 : 사원, 관리자, 최상위 관리자 모두 출력
+-- 1번 : 사원, 관리자, 관리자의 관리자(최상위 관리자)까지 모두 출력
+SELECT e1.eno "사번", e1.ename "사원명", e1.mgr "관리자 사번", e2.eno "사번", e2.ename "사원명", e2.mgr "관리자 사번"
+FROM emp e1
+LEFT OUTER JOIN emp e2 ON e1.mgr=e2.eno
+ORDER BY e1.eno;
+-- 2번 : 사원. 관리자, 사원의 부하직원 출력
+SELECT e1.eno "사번", e1.ename "사원명", e1.mgr "관리자 사번", e2.eno "사번", e2.ename "사원명", e2.mgr "관리자 사번"
+FROM emp e1
+LEFT OUTER JOIN emp e2 ON e1.eno=e2.mgr
+ORDER BY e1.eno;
+
 --tutor
 SELECT e.eno 사번, e.ename 사원명, m.eno "관리자 사번", m.ename 관리자명
  FROM emp e
