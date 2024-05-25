@@ -8,6 +8,8 @@ COUNT 반환된 행의 수를 계산
 SUM  총합을 계산
 STDDEV 표준편차를 계산
 VARIANCE 분산을 계산
+NVL
+NULLIF
 
 1) null 값은 무시된다 - null 의 의미는 '알 수 없다', '정해지지 않았다'
 2) 반드시 1개의 값만을 반환한다
